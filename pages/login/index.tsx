@@ -1,7 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 import AuthBackground from '@/components/AuthBackground';
 import Input from '@/components/Input';
 import Link from 'next/link';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
