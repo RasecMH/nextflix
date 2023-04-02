@@ -2,11 +2,40 @@
 import AuthBackground from '@/components/AuthBackground';
 import Input from '@/components/Input';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import SignIn from '@/utils/SingIn';
+import OAuthButtons from '@/components/OAuthButtons';
+import { NextPageContext } from 'next';
+import { getSession } from 'next-auth/react';
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/profiles',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const login = useCallback(async () => {
+    try {
+      await SignIn(email, password);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, password]);
 
   return (
     <AuthBackground>
@@ -32,9 +61,12 @@ export default function Login() {
               value={password}
             />
           </div>
-          <button className='bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition'>
+          <button
+            onClick={login}
+            className='bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition'>
             Login
           </button>
+          <OAuthButtons />
           <p className='text-neutral-500 mt-12'>
             First time using Nextflix?
             <Link
