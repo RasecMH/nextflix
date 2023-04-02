@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import AuthBackground from '@/components/AuthBackground';
 import Input from '@/components/Input';
 import Link from 'next/link';
