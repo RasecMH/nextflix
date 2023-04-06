@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import useCurrentUser from '@/hooks/userCurrentUser';
 import { signOut } from 'next-auth/react';
 import React from 'react';
 
@@ -9,6 +10,8 @@ interface AccountMenuProps {
 export default function AccountMenu({
   visible,
 }: AccountMenuProps): JSX.Element | null {
+  const { data } = useCurrentUser();
+
   if (!visible) {
     return null;
   }
@@ -23,7 +26,7 @@ export default function AccountMenu({
             alt='profile-image'
           />
           <p className='text-white text-sm group-hover/item:underline'>
-            Username
+            {data?.name}
           </p>
         </div>
         <hr className='bg-gray-600 border-0 h-px my-4' />
